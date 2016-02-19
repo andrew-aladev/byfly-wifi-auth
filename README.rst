@@ -21,7 +21,6 @@ So any thing can connect to current access point using your MAC address after yo
 * Use only unlimited tariff.
 * Do not send unencrypted traffic over this network.
 * Do not trust ISP DNS servers.
-* Do not send any packet to internet from provided IP address.
 * Do not trust "ca-bundle.crt" in this repository. Please download such bundle from trusted location and replace it before building.
 
 
@@ -33,15 +32,15 @@ Provide small binary for openwrt-powered router with 4mb ROM. You can use it on 
 Usage scheme
 ------------
 
-    1. wpa_supplicant will connect to access point with key_mgmt=NONE.
+1. wpa_supplicant will connect to access point with key_mgmt=NONE.
 
-    2. dnsmasq (with disabled DNS rebind protection) will receive ip address and nameservers from remote server.
+2. dnsmasq (with disabled DNS rebind protection) will receive ip address and nameservers from remote server.
 
-    3. dnsmasq will store nameservers in /tmp/resolv.conf.auto, but will provide only trusted public nameserves for both local and remote system.
+3. dnsmasq will store nameservers in /tmp/resolv.conf.auto, but will provide only trusted public nameserves for both local and remote system.
 
-    4. auth application will read /tmp/resolv.conf.auto and make custom dns query to find ip address for "homewifi.beltelecom.by".
+4. auth application will read /tmp/resolv.conf.auto and make custom dns query to find ip address for "homewifi.beltelecom.by".
 
-    5. libcurl will validate "homewifi.beltelecom.by" cert using custom "ca-bundle" and send login queries. It will look like regular web browser.
+5. libcurl will validate "homewifi.beltelecom.by" cert using custom "ca-bundle" and send login queries. It will look like regular web browser.
 
 
 Build
@@ -95,36 +94,36 @@ to /etc/config:
 
      config wifi-iface
          option device   radio0
-         option network	wan
+         option network  wan
          option mode     sta
-         option key_mgmt	NONE
+         option key_mgmt NONE
 
-        option ssid	'byfly WIFI'
-        option bssid	'<insert bssid>'
+        option ssid  'byfly WIFI'
+        option bssid '<insert bssid>'
 
      config dnsmasq
-         option domainneeded '1'
-         option boguspriv '1'
-         option filterwin2k '0'
-         option localise_queries '1'
+         option domainneeded      '1'
+         option boguspriv         '1'
+         option filterwin2k       '0'
+         option localise_queries  '1'
          option rebind_protection '0'
-         option rebind_localhost '1'
-         option local '/lan/'
-         option domain 'lan'
-         option expandhosts '1'
-         option nonegcache '0'
-         option authoritative '1'
-         option readethers '1'
-         option leasefile '/tmp/dhcp.leases'
-         option resolvfile '/tmp/resolv.conf.auto'
-         option localservice '1'
+         option rebind_localhost  '1'
+         option local             '/lan/'
+         option domain            'lan'
+         option expandhosts       '1'
+         option nonegcache        '0'
+         option authoritative     '1'
+         option readethers        '1'
+         option leasefile         '/tmp/dhcp.leases'
+         option resolvfile        '/tmp/resolv.conf.auto'
+         option localservice      '1'
 
      config dhcp 'lan'
-         option interface 'lan'
-         option start '100'
-         option limit '150'
-         option leasetime '12h'
-         list 'dhcp_option' '6,8.8.8.8,8.8.4.4,208.67.222.222,208.67.220.220'
+         option interface     'lan'
+         option start         '100'
+         option limit         '150'
+         option leasetime     '12h'
+         list   'dhcp_option' '6,8.8.8.8,8.8.4.4,208.67.222.222,208.67.220.220'
 
 to /etc/init.d/dnsmasq:
 
