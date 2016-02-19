@@ -8,8 +8,10 @@ Many belarusians have no choice and have to use it.
 There is a byfly Wi-Fi network.
 It does not support any standart authentication methods, it has no encryption.
 
-You can connect to any access point, open web browser, try to view any website and you will be redirected to "https://homewifi.beltelecom.by/login" using "DNS rebind attack".
-You can fill login form and after some random time upstream connection will become up. "Success" messages from web login page mean that remote server has accepted your credentials.
+You can connect to any access point, open web browser, try to view any website and you will be redirected to https://homewifi.beltelecom.by/login using "DNS rebind attack".
+
+You can fill login form and after some random time upstream connection will become up.
+"Success" messages from web login page mean that remote server has accepted your credentials.
 You will not receive any message when upstream connection will become up, you have to ping any host.
 
 
