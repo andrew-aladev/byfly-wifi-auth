@@ -48,7 +48,7 @@ Build
 
     ::
 
-     cd build
+     mkdir build && cd build
      cmake .. -DCMAKE_BUILD_TYPE=RELEASE
      make VERBOSE=1 && make package
      ls byfly-wifi-auth-* | xargs -n1 xdg-open
@@ -59,7 +59,7 @@ Example of build for openwrt
 
      ::
 
-      cd build
+      mkdir build && cd build
       wget "https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/generic/OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2"
       tar xvjf OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
       export STAGING_DIR="OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64/staging_dir/"
