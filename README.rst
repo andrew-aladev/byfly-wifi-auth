@@ -52,6 +52,7 @@ Build
 -----
 
     ::
+
      cd build
      cmake .. -DCMAKE_BUILD_TYPE=RELEASE
      make VERBOSE=1 && make package
@@ -62,6 +63,7 @@ Example of build for openwrt
 ----------------------------
 
      ::
+
       cd build
       wget "https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/generic/OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2"
       tar xvjf OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
@@ -78,6 +80,7 @@ Example of installation for openwrt
 I have an old TL-WA901ND v2 router.
 
     ::
+
      wget "https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/generic/OpenWrt-ImageBuilder-15.05-ar71xx-generic.Linux-x86_64.tar.bz2"
      tar xvjf OpenWrt-ImageBuilder-15.05-ar71xx-generic.Linux-x86_64.tar.bz2
      make image PROFILE="TLWA901" PACKAGES=" \
@@ -160,6 +163,7 @@ to /etc/sysupgrade.conf:
     /etc/hotplug.d/iface/99-byfly-wifi-auth
 
     ::
+
      mkdir /etc/ssl/certs/
 
 to crontab:
@@ -170,6 +174,7 @@ Don't forget to enable autostart of crontab.
 Let 192.168.1.1 is a local ip address of router.
 
     ::
+
      scp ./src/byfly-wifi-auth 192.168.1.1:/tmp/
      scp ../src/bin/byfly-wifi-auth.sh 192.168.1.1:/tmp/
      scp ../src/etc/ca-bundle.crt 192.168.1.1:/tmp/
