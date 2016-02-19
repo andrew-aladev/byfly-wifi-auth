@@ -18,15 +18,11 @@ Warning
 You can reconnect to current access point and you will continue using current session.
 So any thing can connect to current access point using your MAC address after your disconnect and it will use your session.
 
-    1. Use only unlimited tariff.
-
-    2. Do not send unencrypted traffic over this network.
-
-    3. Do not trust ISP DNS servers.
-
-    4. Do not send any packet to internet from provided IP address.
-
-    5. Do not trust "ca-bundle.crt" in this repository. Please download such bundle from trusted location and replace it before building.
+* Use only unlimited tariff.
+* Do not send unencrypted traffic over this network.
+* Do not trust ISP DNS servers.
+* Do not send any packet to internet from provided IP address.
+* Do not trust "ca-bundle.crt" in this repository. Please download such bundle from trusted location and replace it before building.
 
 
 Goal
@@ -95,72 +91,78 @@ I have an old TL-WA901ND v2 router.
 
 to /etc/config:
 
-    config wifi-iface
-        option device   radio0
-        option network	wan
-        option mode     sta
-        option key_mgmt	NONE
+    ::
 
-	option ssid	'byfly WIFI'
-	option bssid	'<insert bssid>'
+     config wifi-iface
+         option device   radio0
+         option network	wan
+         option mode     sta
+         option key_mgmt	NONE
 
-    config dnsmasq
-        option domainneeded '1'
-        option boguspriv '1'
-        option filterwin2k '0'
-        option localise_queries '1'
-        option rebind_protection '0'
-        option rebind_localhost '1'
-        option local '/lan/'
-        option domain 'lan'
-        option expandhosts '1'
-        option nonegcache '0'
-        option authoritative '1'
-        option readethers '1'
-        option leasefile '/tmp/dhcp.leases'
-        option resolvfile '/tmp/resolv.conf.auto'
-        option localservice '1'
+        option ssid	'byfly WIFI'
+        option bssid	'<insert bssid>'
 
-    config dhcp 'lan'
-        option interface 'lan'
-        option start '100'
-        option limit '150'
-        option leasetime '12h'
-        list 'dhcp_option' '6,8.8.8.8,8.8.4.4,208.67.222.222,208.67.220.220'
+     config dnsmasq
+         option domainneeded '1'
+         option boguspriv '1'
+         option filterwin2k '0'
+         option localise_queries '1'
+         option rebind_protection '0'
+         option rebind_localhost '1'
+         option local '/lan/'
+         option domain 'lan'
+         option expandhosts '1'
+         option nonegcache '0'
+         option authoritative '1'
+         option readethers '1'
+         option leasefile '/tmp/dhcp.leases'
+         option resolvfile '/tmp/resolv.conf.auto'
+         option localservice '1'
+
+     config dhcp 'lan'
+         option interface 'lan'
+         option start '100'
+         option limit '150'
+         option leasetime '12h'
+         list 'dhcp_option' '6,8.8.8.8,8.8.4.4,208.67.222.222,208.67.220.220'
 
 to /etc/init.d/dnsmasq:
 
-            #DNS_SERVERS="$DNS_SERVERS 127.0.0.1"
-            DNS_SERVERS="8.8.8.8 8.8.4.4 208.67.222.222 208.67.220.220"
-            for DNS_SERVER in $DNS_SERVERS ; do
-                    echo "nameserver $DNS_SERVER" >> /tmp/resolv.conf
-            done
-    }
+    ::
 
-    reload_service() {
+         #DNS_SERVERS="$DNS_SERVERS 127.0.0.1"
+         DNS_SERVERS="8.8.8.8 8.8.4.4 208.67.222.222 208.67.220.220"
+         for DNS_SERVER in $DNS_SERVERS ; do
+             echo "nameserver $DNS_SERVER" >> /tmp/resolv.conf
+         done
+     }
+
+     reload_service() {
 
 to /etc/sysupgrade.conf:
 
-    /etc/sysupgrade.conf
-    /etc/config
-    /etc/profile
-    /etc/firewall.user
-    /etc/openvpn
-    /etc/shadow
-    /etc/sudoers
+    ::
 
-    /root
-    /home/username
+     /etc/sysupgrade.conf
+     /etc/config
+     /etc/profile
+     /etc/firewall.user
+     /etc/openvpn
+     /etc/shadow
+     /etc/sudoers
 
-    # https://dev.openwrt.org/ticket/19621
-    /etc/ssl/certs/
+     /root
+     /home/username
 
-    /etc/init.d/dnsmasq
+     # https://dev.openwrt.org/ticket/19621
+     /etc/ssl/certs/
 
-    /usr/bin/byfly-wifi-auth
-    /usr/bin/byfly-wifi-auth.sh
-    /etc/byfly-wifi/
-    /etc/hotplug.d/iface/99-byfly-wifi-auth
+     /etc/init.d/dnsmasq
+
+     /usr/bin/byfly-wifi-auth
+     /usr/bin/byfly-wifi-auth.sh
+     /etc/byfly-wifi/
+     /etc/hotplug.d/iface/99-byfly-wifi-auth
 
     ::
 
@@ -168,7 +170,9 @@ to /etc/sysupgrade.conf:
 
 to crontab:
 
-    */20 * * * * byfly-wifi-auth.sh
+    ::
+
+     */20 * * * * byfly-wifi-auth.sh
 
 Don't forget to enable autostart of crontab.
 Let 192.168.1.1 is a local ip address of router.
