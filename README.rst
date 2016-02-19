@@ -71,6 +71,8 @@ Example of build for openwrt
           -DCMAKE_BUILD_TYPE=RELEASE_EMBED
       make VERBOSE=1
 
+Please edit `<cmake/toolchains/gcc/openwrt-15.05-ar71xx.cmake>`_ before making your build.
+
 
 Example of installation for openwrt
 -----------------------------------
