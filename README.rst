@@ -175,7 +175,7 @@ to ``crontab``:
 
     ::
 
-     */20 * * * * byfly-wifi-auth.sh
+     */10 * * * * byfly-wifi-auth.sh
 
 Don't forget to enable autostart of crontab.
 
