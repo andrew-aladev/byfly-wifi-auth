@@ -1,5 +1,5 @@
 #!/bin/sh
 
-if [ "$ACTION" = "ifup" ]; then
+if [ "$INTERFACE" = "wan" ] && [ "$ACTION" = "ifup" ]; then
     byfly-wifi-auth.sh
 fi
