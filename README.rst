@@ -19,9 +19,13 @@ You can reconnect to current access point and you will continue using current se
 So any thing can connect to current access point using your MAC address after your disconnect and it will use your session.
 
     1. Use only unlimited tariff.
+
     2. Do not send unencrypted traffic over this network.
+
     3. Do not trust ISP DNS servers.
+
     4. Do not send any packet to internet from provided IP address.
+
     5. Do not trust "ca-bundle.crt" in this repository. Please download such bundle from trusted location and replace it before building.
 
 
@@ -32,10 +36,15 @@ Provide small binary for openwrt-powered router with 4mb ROM. You can use it on 
 
 Usage scheme
 ------------
+
     1. wpa_supplicant will connect to access point with key_mgmt=NONE.
+
     2. dnsmasq (with disabled DNS rebind protection) will receive ip address and nameservers from remote server.
+
     3. dnsmasq will store nameservers in /tmp/resolv.conf.auto, but will provide only trusted public nameserves for both local and remote system.
+
     4. auth application will read /tmp/resolv.conf.auto and make custom dns query to find ip address for "homewifi.beltelecom.by".
+
     5. libcurl will validate "homewifi.beltelecom.by" cert using custom "ca-bundle" and send login queries. It will look like regular web browser.
 
 
