@@ -21,7 +21,7 @@ So any thing can connect to current access point using your MAC address after yo
 * Use only unlimited tariff.
 * Do not send unencrypted traffic over this network.
 * Do not trust ISP DNS servers.
-* Do not trust "ca-bundle.crt" in this repository. Please download such bundle from trusted location and replace it before building.
+* Do not trust `<src/etc/ca-bundle.crt>`_ in this repository. Please download such bundle from trusted location and replace it before building.
 
 
 Goal
@@ -88,7 +88,7 @@ I have an old TL-WA901ND v2 router.
          libcurl \
      "
 
-to /etc/config:
+to ``/etc/config``:
 
     ::
 
@@ -125,7 +125,7 @@ to /etc/config:
          option leasetime     '12h'
          list   'dhcp_option' '6,8.8.8.8,8.8.4.4,208.67.222.222,208.67.220.220'
 
-to /etc/init.d/dnsmasq:
+to ``/etc/init.d/dnsmasq``:
 
     ::
 
@@ -138,7 +138,7 @@ to /etc/init.d/dnsmasq:
 
      reload_service() {
 
-to /etc/sysupgrade.conf:
+to ``/etc/sysupgrade.conf``:
 
     ::
 
@@ -167,14 +167,15 @@ to /etc/sysupgrade.conf:
 
      mkdir /etc/ssl/certs/
 
-to crontab:
+to ``crontab``:
 
     ::
 
      */20 * * * * byfly-wifi-auth.sh
 
 Don't forget to enable autostart of crontab.
-Let 192.168.1.1 is a local ip address of router.
+
+Let ``192.168.1.1`` be a local ip address of router.
 
     ::
 
@@ -205,7 +206,7 @@ Let 192.168.1.1 is a local ip address of router.
 
 LOGS
 ----
-See /tmp/byfly-wifi-auth.log
+See ``/tmp/byfly-wifi-auth.log``
 
 
 LICENSE
