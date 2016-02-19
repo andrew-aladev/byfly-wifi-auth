@@ -8,6 +8,9 @@
 
 #define _BWA_AUTH_STRING         "user=&pw=&login=Log+in"
 #define _BWA_AUTH_STRING_PATTERN "user=%s&pw=%s&login=Log+in"
+#define _BWA_AUTH_HAVE_FORM      "loginform"
+#define _BWA_AUTH_HAVE_LOGIN     "Login"
+#define _BWA_AUTH_HAVE_PASSWORD  "Password"
 #define _BWA_AUTH_IS_ACTIVE      "Service is active"
 #define _BWA_AUTH_IS_ONGOING     "Service is connecting"
 
@@ -25,11 +28,23 @@ uint8_t bwa_auth_is_logged_in ( bwa_auth_data * data, bool * result )
         return 1;
     }
     
-    * result = (
+    if (
         strstr ( text, _BWA_AUTH_IS_ACTIVE  ) != NULL ||
         strstr ( text, _BWA_AUTH_IS_ONGOING ) != NULL
-    );
-
+    ) {
+        * result = true;
+    } else if (
+        strstr ( text, _BWA_AUTH_HAVE_FORM     ) != NULL &&
+        strstr ( text, _BWA_AUTH_HAVE_LOGIN    ) != NULL &&
+        strstr ( text, _BWA_AUTH_HAVE_PASSWORD ) != NULL
+    ) {
+        * result = false;
+    } else {
+        BWA_PRINT_ERROR ( "page content is invalid" );
+        free ( text );
+        return 2;
+    }
+    
     free ( text );
     return 0;
 }
