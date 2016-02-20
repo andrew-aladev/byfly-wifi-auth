@@ -8,7 +8,7 @@ set ( CMAKE_C_COMPILER ${TOOLCHAIN_DIR}/mips-openwrt-linux-uclibc-gcc )
 set ( CMAKE_STRIP      ${TOOLCHAIN_DIR}/mips-openwrt-linux-uclibc-strip )
 
 set ( ROOT ${STAGING_DIR}/target-mips_34kc_uClibc-0.9.33.2 )
-include_directories ( ${ROOT}/usr/include )
-link_directories ( ${ROOT}/usr/lib )
+set ( _INCLUDE_DIRECTORIES ${ROOT}/usr/include CACHE STRING "include_directories" )
+set ( _LINK_DIRECTORIES    ${ROOT}/usr/lib     CACHE STRING "link_directories" )
 
 set ( CMAKE_C_FLAGS "-march=mips32r2 -mtune=24kc" )

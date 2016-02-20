@@ -16,15 +16,25 @@ if ( NOT DEFINED CMAKE_INSTALL_CONFIGDIR )
     set ( CMAKE_INSTALL_CONFIGDIR "etc/byfly-wifi" CACHE PATH "Output directory for config" )
 endif ()
 
-set ( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/checks" )
+if ( DEFINED _INCLUDE_DIRECTORIES )
+    include_directories ( ${_INCLUDE_DIRECTORIES} )
+endif ()
+if ( DEFINED _LINK_DIRECTORIES )
+    link_directories ( ${_LINK_DIRECTORIES} )
+endif ()
+
+set ( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/checks" "${PROJECT_SOURCE_DIR}/cmake/finds" )
 
 include ( CheckPipe )
 include ( CheckVerbose )
 include ( CheckC99 )
+include ( CheckLibcurl )
 include ( CheckLTO )
 check_pipe ()
 check_verbose ()
 check_c99 ()
+find_package ( libcurl )
+check_libcurl ()
 check_lto ()
 
 if ( NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "" )
@@ -45,7 +55,7 @@ set ( CMAKE_SHARED_LINKER_FLAGS_RELEASE_EMBED "${CMAKE_SHARED_LINKER_FLAGS} ${LT
 add_subdirectory ( "src" )
 
 set ( CPACK_SET_DESTDIR true )
-set ( CMAKE_INSTALL_PREFIX "/" )
+set ( CPACK_INSTALL_PREFIX "/" )
 
 include ( CPackConfig.cmake )
 include ( CPack )

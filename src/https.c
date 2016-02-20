@@ -145,7 +145,7 @@ uint8_t bwa_https_query ( bwa_https_context * context, const char * url, const c
 
     CURLcode code = curl_easy_perform ( context->curl );
     if ( code != CURLE_OK ) {
-        BWA_FPRINT_ERROR ( "curl_easy_perform failed %s", curl_easy_strerror ( code ) );
+        BWA_FPRINT_ERROR ( "curl_easy_perform failed, reason: %s", curl_easy_strerror ( code ) );
         free ( buffer.data );
         return 3;
     }
