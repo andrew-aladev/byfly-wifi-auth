@@ -3,7 +3,7 @@
 cmake_minimum_required ( VERSION "2.8" )
 project ( "byfly-wifi-auth" "C" ) # BWA
 
-set ( BWA_VERSION "1.0.0" )
+set ( BWA_VERSION "1.0.1" )
 
 if ( NOT DEFINED BWA_TARGET )
     set ( BWA_TARGET ${PROJECT_NAME} )
