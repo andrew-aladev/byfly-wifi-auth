@@ -169,7 +169,8 @@ to ``/etc/sysupgrade.conf``:
 
     ::
 
-     mkdir /etc/ssl/certs/
+     mkdir -p /etc/ssl/certs/
+     touch /etc/ssl/certs/.keep
 
 to ``crontab``:
 
