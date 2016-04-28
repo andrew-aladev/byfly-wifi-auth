@@ -28,7 +28,7 @@ So any thing can connect to current access point using your MAC address after yo
 
 Goal
 ----
-Provide small binary for openwrt-powered router with 4mb ROM. You can use it on any unix-like systems.
+Provide small binary for openwrt-powered router with 4mb ROM. You can use it in any unix-like system.
 
 
 Usage scheme
@@ -178,7 +178,7 @@ to ``crontab``:
 
      */10 * * * * byfly-wifi-auth.sh
 
-Don't forget to enable autostart of crontab.
+Don't forget to enable autostart of crontab. Crontab job is required because remote auth system is buggy and not reliable.
 
 Let ``192.168.1.1`` be a local ip address of router.
 
