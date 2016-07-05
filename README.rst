@@ -22,7 +22,7 @@ So any thing can connect to current access point using your MAC address after yo
 
 * Use only unlimited tariff.
 * Do not send unencrypted traffic over this network.
-* Do not trust ISP DNS servers.
+* Do not trust ISP DNS servers. Do not trust any belarussian, russian, etc dns servers.
 * Do not trust `<src/etc/ca-bundle.crt>`_ in this repository. Please download such bundle from trusted location and replace it before building.
 
 
@@ -126,14 +126,14 @@ to ``/etc/config``:
          option start         '100'
          option limit         '150'
          option leasetime     '12h'
-         list   'dhcp_option' '6,8.8.8.8,8.8.4.4,208.67.222.222,208.67.220.220'
+         list   'dhcp_option' '6,8.8.8.8,8.8.4.4'
 
 to ``/etc/init.d/dnsmasq``:
 
     ::
 
          #DNS_SERVERS="$DNS_SERVERS 127.0.0.1"
-         DNS_SERVERS="8.8.8.8 8.8.4.4 208.67.222.222 208.67.220.220"
+         DNS_SERVERS="8.8.8.8 8.8.4.4"
          for DNS_SERVER in $DNS_SERVERS ; do
              echo "nameserver $DNS_SERVER" >> /tmp/resolv.conf
          done
