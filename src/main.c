@@ -24,41 +24,47 @@
 int main () {
     char * nameserver;
     if ( bwa_resolve_conf_get_nameserver ( _BWA_RESOLVE_CONF, &nameserver ) != 0 ) {
+        BWA_PRINT_ERROR ( "resolve_conf_get_nameserver failed" );
         return 1;
     }
-    
+
     char * address;
     if ( bwa_dns_query ( _BWA_HOST, nameserver, &address ) != 0 ) {
+        BWA_PRINT_ERROR ( "dns_query failed" );
         free ( nameserver );
         return 2;
     }
     free ( nameserver );
-    
+
     bwa_https_context context;
     if ( bwa_https_new ( &context, _BWA_HOST, address, _BWA_ROOT_URL, _BWA_CA_BUNDLE_PATH, _BWA_TIMEOUT ) != 0 ) {
+        BWA_PRINT_ERROR ( "https_new failed" );
         free ( address );
         return 3;
     }
     free ( address );
-    
+
     bwa_auth_credentials credentials;
     if ( bwa_auth_conf_read ( &credentials, _BWA_AUTH_CONF ) != 0 ) {
+        BWA_PRINT_ERROR ( "auth_conf_read failed" );
         bwa_https_free ( &context );
         return 4;
     }
-    
+
     bwa_auth_data data;
     bwa_auth_new ( &data, &context, _BWA_LOGIN_URL );
-    
+
     bool is_logged_in;
     if ( bwa_auth_is_logged_in ( &data, &is_logged_in ) != 0 ) {
+        BWA_PRINT_ERROR ( "auth_is_logged_in failed" );
         bwa_auth_conf_free ( &credentials );
         bwa_https_free ( &context );
         return 5;
     }
-    
+
     if ( !is_logged_in ) {
         if ( bwa_auth_do_login ( &data, &credentials, &is_logged_in ) != 0 ) {
+            BWA_PRINT_ERROR ( "auth_do_login failed" );
             bwa_auth_conf_free ( &credentials );
             bwa_https_free ( &context );
             return 6;
@@ -73,7 +79,7 @@ int main () {
     } else {
         BWA_PRINT ( "already logged in" );
     }
-    
+
     bwa_auth_conf_free ( &credentials );
     bwa_https_free ( &context );
     return 0;

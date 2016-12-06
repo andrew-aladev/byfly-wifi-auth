@@ -47,7 +47,7 @@ uint8_t bwa_resolve_conf_get_nameserver ( const char * path, char ** result )
     }
     free ( line );
     fclose ( resolve_conf );
-    
+
     if ( nameserver == NULL ) {
         BWA_FPRINT_ERROR ( "can't find nameserver in %s", path );
         return 3;

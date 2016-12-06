@@ -21,7 +21,7 @@ uint8_t _bwa_auth_conf_read_value ( FILE * auth_conf, char ** result )
         return 1;
     }
     char * line_end = line + line_length;
-    
+
     char * iterator = line;
     while ( strchr ( _BWA_AUTH_CONF_SPACE, * iterator ) != NULL && iterator < line_end ) {
         iterator ++;
@@ -36,7 +36,7 @@ uint8_t _bwa_auth_conf_read_value ( FILE * auth_conf, char ** result )
         free ( line );
         return 2;
     }
-    
+
     value = strndup ( value, value_length );
     if ( value == NULL ) {
         BWA_PRINT_ERROR ( "strndup failed" );
@@ -56,19 +56,20 @@ uint8_t bwa_auth_conf_read ( bwa_auth_credentials * credentials, const char * pa
         BWA_FPRINT_ERROR ( "fopen failed for %s", path );
         return 1;
     }
-    
+
     credentials->login    = NULL;
     credentials->password = NULL;
-    
+
     if (
         _bwa_auth_conf_read_value ( auth_conf, &credentials->login    ) != 0 ||
         _bwa_auth_conf_read_value ( auth_conf, &credentials->password ) != 0
     ) {
+        BWA_PRINT_ERROR ( "auth_conf_read_value failed" );
         bwa_auth_conf_free ( credentials );
         fclose ( auth_conf );
         return 2;
     }
-    
+
     fclose ( auth_conf );
     return 0;
 }

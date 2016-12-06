@@ -10,9 +10,9 @@
 
 static const size_t curl_user_agents_length = 3;
 static const char * curl_user_agents[] = {
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36",
     "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0"
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:44.0) Gecko/20100101 Firefox/50.0"
 };
 
 static const size_t curl_headers_length = 4;
@@ -145,7 +145,7 @@ uint8_t bwa_https_query ( bwa_https_context * context, const char * url, const c
 
     CURLcode code = curl_easy_perform ( context->curl );
     if ( code != CURLE_OK ) {
-        BWA_FPRINT_ERROR ( "curl_easy_perform failed, reason: %s", curl_easy_strerror ( code ) );
+        BWA_FPRINT_ERROR ( "curl_easy_perform failed, code: %d, string: %s", code, curl_easy_strerror ( code ) );
         free ( buffer.data );
         return 3;
     }

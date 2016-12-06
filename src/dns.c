@@ -207,6 +207,7 @@ uint8_t bwa_dns_parse_host ( const char * host_name, bwa_dns_host * host )
 {
     host->name = _bwa_dns_format_host ( host_name );
     if ( host->name == NULL ) {
+        BWA_PRINT_ERROR ( "dns_format_host failed" );
         return 1;
     }
     host->length = strlen ( host->name ) + 1;
@@ -344,6 +345,7 @@ uint8_t bwa_dns_read_label ( bwa_dns_label * label, const uint8_t * source, cons
 {
     size_t label_length = 0;
     if ( _bwa_dns_read_label_symbols ( source, data, max_offset, source_offset, _bwa_dns_label_count_symbols, &label_length ) != 0 ) {
+        BWA_PRINT_ERROR ( "dns_read_label_symbols failed" );
         return 1;
     }
     label->length = 0;
@@ -353,6 +355,7 @@ uint8_t bwa_dns_read_label ( bwa_dns_label * label, const uint8_t * source, cons
         return 2;
     }
     if ( _bwa_dns_read_label_symbols ( source, data, max_offset, source_offset, _bwa_dns_label_store_symbols, label ) != 0 ) {
+        BWA_PRINT_ERROR ( "dns_read_label_symbols failed" );
         free ( label->text );
         return 3;
     }
@@ -364,6 +367,7 @@ uint8_t bwa_dns_ignore_label ( const uint8_t * source, const uint8_t * data, siz
 {
     size_t label_length;
     if ( _bwa_dns_read_label_symbols ( source, data, max_offset, source_offset, _bwa_dns_label_count_symbols, &label_length ) != 0 ) {
+        BWA_PRINT_ERROR ( "dns_read_label_symbols failed" );
         return 1;
     }
     return 0;
@@ -406,6 +410,7 @@ uint8_t bwa_dns_receive_data ( int socket_fd, const bwa_dns_host * host, const s
     for ( index = 0; index < header.answers_count; index ++ ) {
         bwa_dns_label label;
         if ( bwa_dns_read_label ( &label, iterator, data, received_length - 1, &source_offset ) != 0 ) {
+            BWA_PRINT_ERROR ( "dns_read_label failed" );
             free ( data );
             return 4;
         }
@@ -425,6 +430,7 @@ uint8_t bwa_dns_receive_data ( int socket_fd, const bwa_dns_host * host, const s
         } else {
             // ignore alias name
             if ( bwa_dns_ignore_label ( iterator, data, received_length - 1, &source_offset ) != 0 ) {
+                BWA_PRINT_ERROR ( "dns_ignore_label failed" );
                 bwa_dns_free_label ( &label );
                 free ( data );
                 return 5;
@@ -470,12 +476,14 @@ uint8_t bwa_dns_query ( const char * host_name, const char * dns_ip, char ** res
 
     bwa_dns_host host;
     if ( bwa_dns_parse_host ( host_name, &host ) != 0 ) {
+        BWA_PRINT_ERROR ( "dns_parse_host failed" );
         bwa_dns_free_host ( &host );
         close ( socket_fd );
         return 4;
     }
 
     if ( bwa_dns_send_query ( socket_fd, &host, &destination ) != 0 ) {
+        BWA_PRINT_ERROR ( "dns_send_query failed" );
         bwa_dns_free_host ( &host );
         close ( socket_fd );
         return 5;
@@ -483,6 +491,7 @@ uint8_t bwa_dns_query ( const char * host_name, const char * dns_ip, char ** res
 
     struct in_addr address_data;
     if ( bwa_dns_receive_data ( socket_fd, &host, &destination, &address_data ) != 0 ) {
+        BWA_PRINT_ERROR ( "dns_receive_data failed" );
         bwa_dns_free_host ( &host );
         close ( socket_fd );
         return 6;

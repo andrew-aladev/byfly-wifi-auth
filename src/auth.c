@@ -25,9 +25,10 @@ uint8_t bwa_auth_is_logged_in ( bwa_auth_data * data, bool * result )
 {
     char * text;
     if ( bwa_https_query ( data->context, data->url, NULL, &text ) != 0 ) {
+        BWA_PRINT_ERROR ( "https_query get failed" );
         return 1;
     }
-    
+
     if (
         strstr ( text, _BWA_AUTH_IS_ACTIVE  ) != NULL ||
         strstr ( text, _BWA_AUTH_IS_ONGOING ) != NULL
@@ -44,7 +45,7 @@ uint8_t bwa_auth_is_logged_in ( bwa_auth_data * data, bool * result )
         free ( text );
         return 2;
     }
-    
+
     free ( text );
     return 0;
 }
@@ -57,20 +58,21 @@ uint8_t bwa_auth_do_login ( bwa_auth_data * data, const bwa_auth_credentials * c
         BWA_PRINT_ERROR ( "malloc failed" );
         return 1;
     }
-    
+
     if ( post_data_length - 1 > INT_MAX || snprintf ( post_data, post_data_length, _BWA_AUTH_STRING_PATTERN, credentials->login, credentials->password ) != ( int ) ( post_data_length - 1 ) ) {
         BWA_PRINT_ERROR ( "snprintf failed" );
         free ( post_data );
         return 2;
     }
-    
+
     char * text;
     if ( bwa_https_query ( data->context, data->url, post_data, &text ) != 0 ) {
+        BWA_PRINT_ERROR ( "https_query post failed" );
         free ( post_data );
         return 3;
     }
     free ( post_data );
-    
+
     bool temp_result = (
         strstr ( text, _BWA_AUTH_IS_ACTIVE  ) != NULL ||
         strstr ( text, _BWA_AUTH_IS_ONGOING ) != NULL
@@ -80,7 +82,7 @@ uint8_t bwa_auth_do_login ( bwa_auth_data * data, const bwa_auth_credentials * c
          * result = true;
         return 0;
     }
-    
+
     // The remote "system" can response AUTH_IS_ONGOING, AUTH_IS_ACTIVE or just nothing.
     // Another check is required, but anyway there is no guarantee that it will return true after login.
     // Upstream link can become up at any time after auth.
